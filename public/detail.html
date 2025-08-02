@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto - API Course</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="nav-brand">📦 API Store</a>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Catálogo</a></li>
+                    <li><a href="create.html" class="nav-link">Crear Producto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+            <a href="/" class="breadcrumb-link">🏠 Inicio</a>
+            <span class="breadcrumb-separator">›</span>
+            <span id="breadcrumbCategory" class="breadcrumb-category">Categoría</span>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Producto</span>
+        </nav>
+
+        <!-- Área de mensajes -->
+        <div id="messageArea"></div>
+
+        <!-- Estado de loading -->
+        <div id="loadingState" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <span id="loadingText">Cargando producto...</span>
+        </div>
+
+        <!-- Error state -->
+        <div id="errorState" class="empty-state" style="display: none;">
+            <h3>Producto no encontrado</h3>
+            <p>El producto que buscas no existe o fue eliminado</p>
+            <a href="/" class="btn btn-primary">Volver al Catálogo</a>
+        </div>
+
+        <!-- Detalle del producto -->
+        <div id="productDetail" class="product-detail" style="display: none;">
+            <div class="product-detail-content">
+                <!-- Galería de imágenes -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="mainImage" src="" alt="" class="main-image-img">
+                    </div>
+                    <!-- Si hubiera múltiples imágenes, aquí irían los thumbnails -->
+                    <div id="thumbnailGallery" class="thumbnail-gallery" style="display: none;">
+                        <!-- Thumbnails se cargan dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Información del producto -->
+                <div class="product-info">
+                    <div class="product-meta">
+                        <span id="productCategory" class="product-category-badge">Categoría</span>
+                        <span id="productId" class="product-id">ID: #000</span>
+                    </div>
+                    
+                    <h1 id="productTitle" class="product-title-detail">Título del Producto</h1>
+                    
+                    <div class="product-price-section">
+                        <span id="productPrice" class="product-price-detail">$0</span>
+                        <span class="price-currency">USD</span>
+                    </div>
+
+                    <div class="product-description-section">
+                        <h3>Descripción</h3>
+                        <p id="productDescription" class="product-description-detail">
+                            Descripción del producto...
+                        </p>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="product-additional-info">
+                        <div class="info-row">
+                            <span class="info-label">Fecha de creación:</span>
+                            <span id="creationDate" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Última actualización:</span>
+                            <span id="updateDate" class="info-value">-</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Slug:</span>
+                            <span id="productSlug" class="info-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Acciones del producto -->
+                    <div class="product-actions-detail">
+                        <button id="editProductBtn" class="btn btn-primary">
+                            ✏️ Editar Producto
+                        </button>
+                        <button id="deleteProductBtn" class="btn btn-danger">
+                            🗑️ Eliminar Producto
+                        </button>
+                        <a href="/" class="btn btn-secondary">
+                            ← Volver al Catálogo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>¿Eliminar producto?</h3>
+            <p id="deleteModalText">¿Estás seguro de que quieres eliminar este producto?</p>
+            <div class="modal-actions">
+                <button id="confirmDelete" class="btn btn-danger">Eliminar</button>
+                <button id="cancelDelete" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="mock-data.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/detail.js"></script>
+</body>
+</html>

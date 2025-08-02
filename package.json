@@ -1,0 +1,17 @@
+{
+  "name": "api-course-template",
+  "version": "1.0.0",
+  "description": "Template básico para curso de APIs con Javascript usando Hono.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.12.0",
+    "hono": "^4.5.8"
+  },
+  "keywords": ["api", "javascript", "hono", "template", "course"],
+  "author": "Eduardo Álvarez",
+  "license": "MIT"
+}

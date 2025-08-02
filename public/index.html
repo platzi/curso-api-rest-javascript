@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos - API Course</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="/" class="nav-brand">📦 API Store</a>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link active">Catálogo</a></li>
+                    <li><a href="create.html" class="nav-link">Crear Producto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Header de productos con filtros -->
+        <div class="products-header">
+            <div>
+                <h1>Catálogo de Productos</h1>
+                <p class="color-text-muted">Explora nuestra colección de productos</p>
+            </div>
+            
+            <div class="filters">
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    class="search-input" 
+                    placeholder="Buscar productos..."
+                >
+                <select id="categoryFilter" class="form-select">
+                    <option value="">Todas las categorías</option>
+                </select>
+                <a href="create.html" class="btn btn-primary">+ Nuevo Producto</a>
+            </div>
+        </div>
+
+        <!-- Estados de la aplicación -->
+        <div id="loadingState" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            Cargando productos...
+        </div>
+
+        <div id="messageArea"></div>
+
+        <!-- Grid de productos -->
+        <div id="productsGrid" class="products-grid">
+            <!-- Los productos se cargan dinámicamente aquí -->
+        </div>
+
+        <!-- Estado vacío -->
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h3>No se encontraron productos</h3>
+            <p>Intenta ajustar los filtros o crear un nuevo producto</p>
+            <a href="create.html" class="btn btn-primary">Crear Primer Producto</a>
+        </div>
+    </main>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>¿Eliminar producto?</h3>
+            <p>Esta acción no se puede deshacer</p>
+            <div class="modal-actions">
+                <button id="confirmDelete" class="btn btn-danger">Eliminar</button>
+                <button id="cancelDelete" class="btn btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="mock-data.js"></script>
+    <script src="js/base.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
