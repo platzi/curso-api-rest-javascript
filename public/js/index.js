@@ -35,7 +35,7 @@ function initializeCatalog() {
     // Inicializar componentes
     populateCategories(categoryFilter);
     bindEventListeners();
-    
+
     // Simular carga inicial
     simulateLoading(() => {
         renderProducts(currentProducts);
@@ -50,7 +50,7 @@ function initializeCatalog() {
  */
 function renderProducts(products) {
     hideAllStates();
-    
+
     if (products.length === 0) {
         emptyState.style.display = 'block';
         return;
@@ -104,7 +104,7 @@ function filterProducts() {
 
     // Filtrar por categoría
     if (currentCategory) {
-        filtered = filtered.filter(product => 
+        filtered = filtered.filter(product =>
             product.category.id.toString() === currentCategory
         );
     }
@@ -155,14 +155,14 @@ function bindEventListeners() {
 function showDeleteModal(productId) {
     productToDelete = productId;
     const product = findProductById(productId);
-    
+
     if (product && deleteModal) {
         // Actualizar texto del modal con nombre del producto
         const modalText = document.querySelector('#deleteModal p');
         if (modalText) {
             modalText.textContent = `¿Estás seguro de que quieres eliminar "${product.title}"?`;
         }
-        
+
         deleteModal.style.display = 'flex';
     }
 }
@@ -184,19 +184,19 @@ function deleteProduct() {
     if (!productToDelete) return;
 
     const confirmBtn = document.getElementById('confirmDelete');
-    
+
     // Mostrar estado de carga en el botón
     if (confirmBtn) {
         confirmBtn.innerHTML = '<div class="spinner"></div> Eliminando...';
     }
-    
+
     // Simular operación de eliminación
     setTimeout(() => {
         // Eliminar del array mock
         const wasDeleted = removeProductFromMock(productToDelete);
-        
+
         hideDeleteModal();
-        
+
         if (wasDeleted) {
             showMessage(MOCK_MESSAGES.delete.success, 'success');
             // Re-renderizar la lista filtrada
@@ -204,7 +204,7 @@ function deleteProduct() {
         } else {
             showMessage(MOCK_MESSAGES.delete.error, 'error');
         }
-        
+
         // Restaurar botón
         if (confirmBtn) {
             confirmBtn.innerHTML = 'Eliminar';
