@@ -24,14 +24,14 @@ let editProductBtn;
 let deleteProductBtn;
 
 // ===== INICIALIZACIÓN =====
-document.addEventListener('DOMContentLoaded', () => {
-    initializeDetail();
+document.addEventListener('DOMContentLoaded', async () => {
+    await initializeDetail();
 });
 
 /**
  * Inicializa la página de detalle del producto
  */
-function initializeDetail() {
+async function initializeDetail() {
     // Obtener ID del producto desde URL
     productId = parseInt(getUrlParameter('id'));
 
@@ -42,12 +42,12 @@ function initializeDetail() {
 
     // Obtener elementos del DOM
     initializeDOMElements();
-    
+
     // Configurar eventos
     bindEventListeners();
-    
+
     // Cargar producto
-    loadProductDetail();
+    await loadProductDetail();
 }
 
 /**
@@ -75,14 +75,15 @@ function initializeDOMElements() {
 /**
  * Carga los detalles del producto desde los datos mock
  */
-function loadProductDetail() {
+async function loadProductDetail() {
     showLoadingState('Cargando producto...');
 
     // Simular carga de API
-    setTimeout(() => {
-        // Buscar producto en mock data
-        currentProduct = findProductById(productId);
-        
+    setTimeout(async () => {
+        const repo = window.productRepository;
+
+        const currentProduct = await repo.getProduct(productId);
+
         if (!currentProduct) {
             showErrorState();
             return;
@@ -102,7 +103,7 @@ function populateProductDetail(product) {
     if (mainImage) {
         mainImage.src = product.images[0];
         mainImage.alt = product.title;
-        mainImage.onerror = function() {
+        mainImage.onerror = function () {
             this.src = 'https://via.placeholder.com/500x400?text=No+Image';
         };
     }
@@ -164,7 +165,7 @@ function bindEventListeners() {
     if (deleteModal) {
         const confirmBtn = document.getElementById('confirmDelete');
         const cancelBtn = document.getElementById('cancelDelete');
-        
+
         if (confirmBtn) confirmBtn.addEventListener('click', deleteProduct);
         if (cancelBtn) cancelBtn.addEventListener('click', hideDeleteModal);
     }
@@ -177,12 +178,12 @@ function bindEventListeners() {
  */
 function showDeleteModal() {
     if (!currentProduct || !deleteModal) return;
-    
+
     const modalText = document.getElementById('deleteModalText');
     if (modalText) {
         modalText.textContent = `¿Estás seguro de que quieres eliminar "${currentProduct.title}"?`;
     }
-    
+
     deleteModal.style.display = 'flex';
 }
 
@@ -202,29 +203,29 @@ function deleteProduct() {
     if (!productId) return;
 
     const confirmBtn = document.getElementById('confirmDelete');
-    
+
     // Mostrar estado de carga
     if (confirmBtn) {
         confirmBtn.innerHTML = '<div class="spinner"></div> Eliminando...';
     }
-    
+
     // Simular eliminación
     setTimeout(() => {
         // Eliminar del array mock
         const wasDeleted = removeProductFromMock(productId);
-        
+
         hideDeleteModal();
-        
+
         if (wasDeleted) {
             showMessage(MOCK_MESSAGES.delete.success, 'success');
-            
+
             // Redireccionar al catálogo después de mostrar mensaje
             setTimeout(() => {
                 window.location.href = '/';
             }, 2000);
         } else {
             showMessage(MOCK_MESSAGES.delete.error, 'error');
-            
+
             // Restaurar botón
             if (confirmBtn) {
                 confirmBtn.innerHTML = 'Eliminar';

@@ -17,14 +17,14 @@ let categoryFilter;
 let deleteModal;
 
 // ===== INICIALIZACIÓN =====
-document.addEventListener('DOMContentLoaded', () => {
-    initializeCatalog();
+document.addEventListener('DOMContentLoaded', async () => {
+    await initializeCatalog();
 });
 
 /**
  * Inicializa el catálogo de productos
  */
-function initializeCatalog() {
+async function initializeCatalog() {
     // Obtener elementos del DOM
     productsGrid = document.getElementById('productsGrid');
     emptyState = document.getElementById('emptyState');
@@ -36,9 +36,13 @@ function initializeCatalog() {
     populateCategories(categoryFilter);
     bindEventListeners();
 
+    const repository = window.productRepository;
+    const productResponse = await repository.getProducts();
+    console.log(productResponse);
+
     // Simular carga inicial
     simulateLoading(() => {
-        renderProducts(currentProducts);
+        renderProducts(productResponse);
     });
 }
 
@@ -99,7 +103,7 @@ function renderProducts(products) {
 /**
  * Filtra productos según categoría y búsqueda actual
  */
-function filterProducts() {
+async function filterProducts() {
     let filtered = [...MOCK_PRODUCTS];
 
     // Filtrar por categoría
