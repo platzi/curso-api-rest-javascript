@@ -3,28 +3,52 @@
 
 const MOCK_CATEGORIES = [
   {
-    id: 10,
-    name: "Clothes",
-    slug: "clothes",
-    image: "https://i.imgur.com/QkIa5tT.jpeg"
+    "id": 1,
+    "name": "Clothes",
+    "slug": "clothes",
+    "image": "https://i.imgur.com/QkIa5tT.jpeg",
+    "creationAt": "2025-08-04T21:37:58.000Z",
+    "updatedAt": "2025-08-04T21:37:58.000Z"
   },
   {
-    id: 11,
-    name: "Electronics", 
-    slug: "electronics",
-    image: "https://i.imgur.com/ZANVnHE.jpeg"
+    "id": 2,
+    "name": "Electronics",
+    "slug": "electronics",
+    "image": "https://i.imgur.com/ZANVnHE.jpeg",
+    "creationAt": "2025-08-04T21:37:58.000Z",
+    "updatedAt": "2025-08-04T21:37:58.000Z"
   },
   {
-    id: 12,
-    name: "Furniture",
-    slug: "furniture", 
-    image: "https://i.imgur.com/Qphac99.jpeg"
+    "id": 3,
+    "name": "Furniture",
+    "slug": "furniture",
+    "image": "https://i.imgur.com/Qphac99.jpeg",
+    "creationAt": "2025-08-04T21:37:58.000Z",
+    "updatedAt": "2025-08-04T21:37:58.000Z"
   },
   {
-    id: 13,
-    name: "Shoes",
-    slug: "shoes",
-    image: "https://i.imgur.com/qNOjJje.jpeg"
+    "id": 4,
+    "name": "Shoes",
+    "slug": "shoes",
+    "image": "https://i.imgur.com/qNOjJje.jpeg",
+    "creationAt": "2025-08-04T21:37:58.000Z",
+    "updatedAt": "2025-08-04T21:37:58.000Z"
+  },
+  {
+    "id": 5,
+    "name": "Miscellaneous",
+    "slug": "miscellaneous",
+    "image": "https://i.imgur.com/BG8J0Fj.jpg",
+    "creationAt": "2025-08-04T21:37:58.000Z",
+    "updatedAt": "2025-08-04T21:37:58.000Z"
+  },
+  {
+    "id": 6,
+    "name": "Testing Category",
+    "slug": "testing-category",
+    "image": "https://placeimg.com/640/480/any",
+    "creationAt": "2025-08-04T22:01:43.000Z",
+    "updatedAt": "2025-08-04T22:01:43.000Z"
   }
 ];
 
@@ -32,7 +56,7 @@ const MOCK_PRODUCTS = [
   {
     id: 84,
     title: "Classic Red Jogger Sweatpants",
-    slug: "classic-red-jogger-sweatpants", 
+    slug: "classic-red-jogger-sweatpants",
     price: 98,
     description: "Experience ultimate comfort with our red jogger sweatpants, perfect for both workout sessions and lounging around the house. Made with soft, durable fabric, these joggers feature a snug waistband, adjustable drawstring, and practical side pockets for functionality.",
     category: MOCK_CATEGORIES[0],
@@ -42,7 +66,7 @@ const MOCK_PRODUCTS = [
     id: 86,
     title: "Classic Blue Baseball Cap",
     slug: "classic-blue-baseball-cap",
-    price: 86, 
+    price: 86,
     description: "Top off your casual look with our Classic Blue Baseball Cap, made from high-quality materials for lasting comfort. Featuring a timeless six-panel design with a pre-curved visor, this adjustable cap offers both style and practicality for everyday wear.",
     category: MOCK_CATEGORIES[0],
     images: ["https://i.imgur.com/wXuQ7bm.jpeg"]
@@ -50,7 +74,7 @@ const MOCK_PRODUCTS = [
   {
     id: 87,
     title: "Wireless Bluetooth Headphones",
-    slug: "wireless-bluetooth-headphones",  
+    slug: "wireless-bluetooth-headphones",
     price: 129,
     description: "Immerse yourself in crystal-clear sound with these premium wireless Bluetooth headphones. Featuring active noise cancellation, 30-hour battery life, and comfortable over-ear design for all-day listening.",
     category: MOCK_CATEGORIES[1],
@@ -62,7 +86,7 @@ const MOCK_PRODUCTS = [
     slug: "modern-office-chair",
     price: 245,
     description: "Upgrade your workspace with this ergonomic office chair designed for maximum comfort and productivity. Features lumbar support, adjustable height, and breathable mesh back for long working hours.",
-    category: MOCK_CATEGORIES[2], 
+    category: MOCK_CATEGORIES[2],
     images: ["https://i.imgur.com/Qphac99.jpeg"]
   },
   {
@@ -77,7 +101,7 @@ const MOCK_PRODUCTS = [
   {
     id: 90,
     title: "Smartphone 5G Ultra",
-    slug: "smartphone-5g-ultra", 
+    slug: "smartphone-5g-ultra",
     price: 899,
     description: "Experience the future with this cutting-edge 5G smartphone. Features a stunning 6.7-inch OLED display, professional-grade camera system, and lightning-fast processor for seamless performance.",
     category: MOCK_CATEGORIES[1],
@@ -88,7 +112,7 @@ const MOCK_PRODUCTS = [
 // Estados de UI para demonstrar diferentes casos
 const UI_STATES = {
   IDLE: 'idle',
-  LOADING: 'loading', 
+  LOADING: 'loading',
   SUCCESS: 'success',
   ERROR: 'error',
   EMPTY: 'empty'
@@ -101,7 +125,7 @@ const MOCK_MESSAGES = {
     error: '❌ Error al crear el producto'
   },
   update: {
-    success: '✅ Producto actualizado exitosamente', 
+    success: '✅ Producto actualizado exitosamente',
     error: '❌ Error al actualizar el producto'
   },
   delete: {
