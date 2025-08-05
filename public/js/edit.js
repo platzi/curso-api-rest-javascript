@@ -53,15 +53,17 @@ function loadProduct() {
     // Simular carga de API
     setTimeout(() => {
         // Buscar producto en mock data
-        currentProduct = findProductById(productId);
-        
-        if (!currentProduct) {
-            showErrorState();
-            return;
-        }
+        const repo = window.productRepository;
 
-        populateForm(currentProduct);
-        showForm();
+        repo.getProduct(productId).then(currentProduct => {
+            if (!currentProduct) {
+                showErrorState();
+                return;
+            }
+            populateForm(currentProduct);
+            showForm();
+        });
+
     }, 800);
 }
 
@@ -83,7 +85,7 @@ function populateForm(product) {
     if (categorySelect) categorySelect.value = product.category.id;
     if (descriptionField) descriptionField.value = product.description;
     if (imageUrlField) imageUrlField.value = product.images[0];
-    
+
     // Mostrar preview de imagen actual
     if (previewImg) {
         previewImg.src = product.images[0];
@@ -100,12 +102,12 @@ function bindEventListeners() {
     if (form) {
         form.addEventListener('submit', handleSubmit);
     }
-    
+
     // Preview de imagen con debounce
     if (imageUrlInput) {
         imageUrlInput.addEventListener('input', debounce(updateImagePreview, 500));
     }
-    
+
     // Validación en tiempo real para todos los campos
     const formFields = form ? form.querySelectorAll('input, select, textarea') : [];
     formFields.forEach(field => {
@@ -122,20 +124,28 @@ function bindEventListeners() {
  */
 function handleSubmit(e) {
     e.preventDefault();
-    
+
     if (!validateForm()) {
         showMessage('Por favor corrige los errores del formulario', 'error');
         return;
     }
-
+    const productId = parseInt(getUrlParameter('id'))
     const formData = new FormData(form);
     const updatedData = {
         title: formData.get('title').trim(),
         price: parseFloat(formData.get('price')),
         categoryId: parseInt(formData.get('categoryId')),
         description: formData.get('description').trim(),
-        imageUrl: formData.get('imageUrl').trim()
+        images: [formData.get('imageUrl').trim()]
     };
+
+
+    const repository = window.productRepository;
+
+
+    repository.editProduct(productId, updatedData).then(response => {
+        console.log(response);
+    })
 
     simulateUpdateProduct(updatedData);
 }
@@ -146,19 +156,19 @@ function handleSubmit(e) {
  */
 function simulateUpdateProduct(updatedData) {
     showEditLoadingState();
-    
+
     // Simular petición al servidor
     setTimeout(() => {
         // Simular éxito o error aleatorio (90% éxito para edición)
         const isSuccess = Math.random() > 0.1;
-        
+
         if (isSuccess) {
             // Actualizar en mock data
             const updatedProduct = updateProductInMock(productId, updatedData);
-            
+
             if (updatedProduct) {
                 showMessage(MOCK_MESSAGES.update.success, 'success');
-                
+
                 // Redireccionar después de 2 segundos
                 setTimeout(() => {
                     window.location.href = '/';
@@ -183,14 +193,14 @@ function simulateUpdateProduct(updatedData) {
 function validateForm() {
     let isValid = true;
     const fields = ['title', 'price', 'categoryId', 'description', 'imageUrl'];
-    
+
     fields.forEach(fieldName => {
         const field = document.getElementById(fieldName);
         if (field && !validateField(field)) {
             isValid = false;
         }
     });
-    
+
     return isValid;
 }
 
@@ -201,7 +211,7 @@ function validateForm() {
  */
 function updateImagePreview() {
     if (!imageUrlInput || !previewImg) return;
-    
+
     const url = imageUrlInput.value.trim();
     if (url && isValidUrl(url)) {
         previewImg.src = url;
@@ -225,7 +235,7 @@ function showForm() {
  */
 function showEditLoadingState() {
     showLoadingState('Actualizando producto...');
-    
+
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) submitBtn.disabled = true;
 }
@@ -235,7 +245,7 @@ function showEditLoadingState() {
  */
 function hideEditLoadingState() {
     showForm();
-    
+
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) submitBtn.disabled = false;
 }

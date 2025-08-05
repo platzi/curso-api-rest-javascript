@@ -59,6 +59,25 @@ class ProductRepository {
 
     }
 
+    async editProduct(productId, productData) {
+        const url = `${this.url}/products/${productId}/`;
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productData)
+        });
+
+
+        if (!response.ok) {
+            throw new Error(`No se puede actualizar el producto ${productId}: ${response.status}`)
+        }
+
+        const jsonResponse = await response.json();
+        return jsonResponse;
+    }
 }
 
 
