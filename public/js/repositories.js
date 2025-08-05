@@ -36,6 +36,29 @@ class ProductRepository {
         const responseData = await response.json();
         return responseData;
     }
+
+
+    async createProduct(product) {
+
+        const url = `${this.url}/products/`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(product)
+        });
+
+        if (!response.ok) {
+            throw new Error(`No se pudo crear el producto, con status code ${response.status}`);
+        }
+
+        const jsonResponse = await response.json()
+        return jsonResponse;
+
+    }
+
 }
 
 

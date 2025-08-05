@@ -41,12 +41,12 @@ function bindEventListeners() {
     if (form) {
         form.addEventListener('submit', handleSubmit);
     }
-    
+
     // Preview de imagen con debounce
     if (imageUrlInput) {
         imageUrlInput.addEventListener('input', debounce(showImagePreview, 500));
     }
-    
+
     // Validación en tiempo real para todos los campos
     const formFields = form ? form.querySelectorAll('input, select, textarea') : [];
     formFields.forEach(field => {
@@ -63,7 +63,7 @@ function bindEventListeners() {
  */
 function handleSubmit(e) {
     e.preventDefault();
-    
+
     if (!validateForm()) {
         showMessage('Por favor corrige los errores del formulario', 'error');
         return;
@@ -75,10 +75,12 @@ function handleSubmit(e) {
         price: parseFloat(formData.get('price')),
         categoryId: parseInt(formData.get('categoryId')),
         description: formData.get('description').trim(),
-        imageUrl: formData.get('imageUrl').trim()
+        images: [formData.get('imageUrl').trim()]
     };
 
-    simulateCreateProduct(productData);
+
+    const repository = window.productRepository;
+    repository.createProduct(productData).then(r => console.log(r));
 }
 
 /**
@@ -88,21 +90,21 @@ function handleSubmit(e) {
 function simulateCreateProduct(productData) {
     // Cambiar estado a loading
     showCreateLoadingState();
-    
+
     // Simular petición al servidor
     setTimeout(() => {
         // Simular éxito o error aleatorio (80% éxito)
         const isSuccess = Math.random() > 0.2;
-        
+
         hideCreateLoadingState();
-        
+
         if (isSuccess) {
             // Agregar al mock data
             const newProduct = addProductToMock(productData);
-            
+
             showMessage(MOCK_MESSAGES.create.success, 'success');
             resetForm();
-            
+
             // Redireccionar después de 2 segundos
             setTimeout(() => {
                 window.location.href = '/';
@@ -122,14 +124,14 @@ function simulateCreateProduct(productData) {
 function validateForm() {
     let isValid = true;
     const fields = ['title', 'price', 'categoryId', 'description', 'imageUrl'];
-    
+
     fields.forEach(fieldName => {
         const field = document.getElementById(fieldName);
         if (field && !validateField(field)) {
             isValid = false;
         }
     });
-    
+
     return isValid;
 }
 
@@ -140,7 +142,7 @@ function validateForm() {
  */
 function showImagePreview() {
     if (!imageUrlInput || !imagePreview || !previewImg) return;
-    
+
     const url = imageUrlInput.value.trim();
     if (url && isValidUrl(url)) {
         previewImg.src = url;
@@ -163,7 +165,7 @@ function showImagePreview() {
 function showCreateLoadingState() {
     if (form) form.style.display = 'none';
     showLoadingState('Creando producto...');
-    
+
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) submitBtn.disabled = true;
 }
@@ -174,7 +176,7 @@ function showCreateLoadingState() {
 function hideCreateLoadingState() {
     if (form) form.style.display = 'block';
     hideAllStates();
-    
+
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) submitBtn.disabled = false;
 }
@@ -186,14 +188,14 @@ function hideCreateLoadingState() {
  */
 function resetForm() {
     if (!form) return;
-    
+
     form.reset();
-    
+
     // Ocultar preview de imagen
     if (imagePreview) {
         imagePreview.style.display = 'none';
     }
-    
+
     // Limpiar errores
     const fieldNames = ['title', 'price', 'categoryId', 'description', 'imageUrl'];
     fieldNames.forEach(fieldName => {
