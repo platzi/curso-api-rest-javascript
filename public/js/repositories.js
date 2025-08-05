@@ -4,15 +4,29 @@ class ProductRepository {
         this.url = url;
     }
 
-    async getProducts() {
-        const response = await fetch(`${this.url}/products/`);
+    async getProducts(categoryId) {
+
+        const filterParams = new URLSearchParams();
+        if (categoryId) {
+
+            filterParams.append('categoryId', categoryId)
+        }
+
+        let url = `${this.url}/products/`;
+
+        if (filterParams.size > 0) {
+            url = `${url}?${filterParams}`
+        }
+
+        const response = await fetch(url);
+
+
         if (!response.ok && !response.headers.get('content-type') != 'applicacion/json') {
             throw new Error('No fue posible encontrar los productos')
         }
         const responseData = await response.json();
         return responseData;
     }
-
 
     async getProduct(id) {
         const response = await fetch(`${this.url}/products/${id}/`);
