@@ -78,6 +78,18 @@ class ProductRepository {
         const jsonResponse = await response.json();
         return jsonResponse;
     }
+
+    async deleteProduct(productId) {
+        const url = `${this.url}/products/${productId}/`;
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.ok;
+    }
 }
 
 

@@ -82,7 +82,7 @@ async function loadProductDetail() {
     setTimeout(async () => {
         const repo = window.productRepository;
 
-        const currentProduct = await repo.getProduct(productId);
+        currentProduct = await repo.getProduct(productId);
 
         if (!currentProduct) {
             showErrorState();
@@ -209,11 +209,10 @@ function deleteProduct() {
         confirmBtn.innerHTML = '<div class="spinner"></div> Eliminando...';
     }
 
-    // Simular eliminación
-    setTimeout(() => {
-        // Eliminar del array mock
-        const wasDeleted = removeProductFromMock(productId);
 
+    const repository = window.productRepository;
+
+    repository.deleteProduct(productId).then(wasDeleted => {
         hideDeleteModal();
 
         if (wasDeleted) {
@@ -231,5 +230,6 @@ function deleteProduct() {
                 confirmBtn.innerHTML = 'Eliminar';
             }
         }
-    }, 1000);
+    })
+
 }

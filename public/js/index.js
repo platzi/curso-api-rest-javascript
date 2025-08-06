@@ -160,14 +160,17 @@ function showDeleteModal(productId) {
     productToDelete = productId;
     const product = findProductById(productId);
 
-    if (product && deleteModal) {
+    // Obtener el modal cada vez por si no estaba inicializado
+    const modal = deleteModal || document.getElementById('deleteModal');
+
+    if (product && modal) {
         // Actualizar texto del modal con nombre del producto
         const modalText = document.querySelector('#deleteModal p');
         if (modalText) {
             modalText.textContent = `¿Estás seguro de que quieres eliminar "${product.title}"?`;
         }
 
-        deleteModal.style.display = 'flex';
+        modal.style.display = 'flex';
     }
 }
 
@@ -176,8 +179,9 @@ function showDeleteModal(productId) {
  */
 function hideDeleteModal() {
     productToDelete = null;
-    if (deleteModal) {
-        deleteModal.style.display = 'none';
+    const modal = deleteModal || document.getElementById('deleteModal');
+    if (modal) {
+        modal.style.display = 'none';
     }
 }
 
@@ -229,3 +233,6 @@ function refreshCatalog() {
 
 // Exponer función global para que otras páginas puedan actualizar el catálogo
 window.refreshCatalog = refreshCatalog;
+
+// Exponer función global para el onclick del botón eliminar
+window.showDeleteModal = showDeleteModal;
